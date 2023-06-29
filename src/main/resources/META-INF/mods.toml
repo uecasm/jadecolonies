@@ -1,0 +1,46 @@
+modLoader="javafml"
+loaderVersion="${project.forge_range}"
+license="GPLv3"
+issueTrackerURL="https://github.com/uecasm/jadecolonies/issues"
+[[mods]]
+modId="jadecolonies"
+version="${project.version}"
+displayName="JadeColonies"
+updateJSONURL="https://raw.githubusercontent.com/uecasm/jadecolonies/master/update.json"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/jadecolonies"
+logoFile="logo.png"
+credits="Jade addon for MineColonies"
+authors="Mirality"
+description='''
+A Jade addon for MineColonies and/or Domum Ornamentum.
+'''
+[[dependencies.jadecolonies]]
+    modId="forge"
+    mandatory=true
+    versionRange="${project.forge_range}"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.jadecolonies]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${project.minecraft_range}"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.jadecolonies]]
+    modId="jade"
+    mandatory=false
+    versionRange="[${project.jade_version},)"
+    ordering="AFTER"
+    side="BOTH"
+[[dependencies.jadecolonies]]
+    modId="minecolonies"
+    mandatory=false
+    versionRange="[${project.colony_version},)"
+    ordering="AFTER"
+    side="BOTH"
+[[dependencies.jadecolonies]]
+    modId="domum_ornamentum"
+    mandatory=false
+    versionRange="[${project.domum_version},)"
+    ordering="AFTER"
+    side="BOTH"
