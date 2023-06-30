@@ -23,7 +23,7 @@ import static nz.co.mirality.jadecolonies.JadeColonies.ID;
 /**
  * Adds the style pack that the building comes from.
  */
-class BuildingPackComponentProvider implements IBlockComponentProvider, IServerDataProvider<BlockEntity>
+class BuildingPackComponentProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor>
 {
     private static final ResourceLocation UID = new ResourceLocation(ID, "colony.pack");
     private static final String PACK_NAME = UID.toString();
@@ -48,22 +48,19 @@ class BuildingPackComponentProvider implements IBlockComponentProvider, IServerD
     }
 
     @Override
-    public void appendServerData(@NotNull final CompoundTag data,
-                                 @NotNull final ServerPlayer player,
-                                 @NotNull final Level level,
-                                 @NotNull final BlockEntity blockEntity,
-                                 final boolean showDetails)
+    public void appendServerData(@NotNull final CompoundTag compoundTag,
+                                 @NotNull final BlockAccessor blockAccessor)
     {
-        if (blockEntity instanceof final AbstractTileEntityColonyBuilding entity)
+        if (blockAccessor.getBlockEntity() instanceof final AbstractTileEntityColonyBuilding entity)
         {
             final IBuilding building = entity.getBuilding();
             if (building == null || building instanceof IRSComponent) { return; }
 
-            data.putString(PACK_NAME, building.getStructurePack());
+            compoundTag.putString(PACK_NAME, building.getStructurePack());
         }
-        else if (blockEntity instanceof final TileEntityDecorationController deco)
+        else if (blockAccessor.getBlockEntity() instanceof final TileEntityDecorationController deco)
         {
-            data.putString(PACK_NAME, deco.getPackName());
+            compoundTag.putString(PACK_NAME, deco.getPackName());
         }
     }
 

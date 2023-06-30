@@ -3,6 +3,7 @@ package nz.co.mirality.jadecolonies.minecolonies;
 import com.ldtteam.blockui.UiRenderMacros;
 import com.minecolonies.api.util.constant.WindowConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec2;
@@ -44,10 +45,9 @@ class GenderElement extends Element
     }
 
     @Override
-    public void render(@NotNull final PoseStack poseStack,
-                       final float x, final float y, final float maxX, final float maxY)
+    public void render(@NotNull final GuiGraphics guiGraphics, final float x, final float y, final float maxX, final float maxY)
     {
-        UiRenderMacros.blit(poseStack, this.textureLocation, (int) x, (int) y, 15, 15, 0, 0, 30, 30, 30, 30);
+        UiRenderMacros.blit(guiGraphics.pose(), this.textureLocation, (int) x, (int) y, 15, 15, 0, 0, 30, 30, 30, 30);
     }
 
     @Override

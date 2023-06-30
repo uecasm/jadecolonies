@@ -25,7 +25,7 @@ import static nz.co.mirality.jadecolonies.JadeColonies.ID;
  * If the building has a custom name, displays the custom name as the main block name, with the name & level below.
  * Otherwise, replaces the block name with the name & level of the building (i.e. appends the level).
  */
-class BuildingNameComponentProvider implements IBlockComponentProvider, IServerDataProvider<BlockEntity>
+class BuildingNameComponentProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor>
 {
     private static final ResourceLocation UID = new ResourceLocation(ID, "colony.hut");
     private static final String OVERRIDE_NAME = "givenName";
@@ -57,13 +57,10 @@ class BuildingNameComponentProvider implements IBlockComponentProvider, IServerD
     }
 
     @Override
-    public void appendServerData(@NotNull final CompoundTag data,
-                                 @NotNull final ServerPlayer player,
-                                 @NotNull final Level level,
-                                 @NotNull final BlockEntity blockEntity,
-                                 final boolean showDetails)
+    public void appendServerData(@NotNull final CompoundTag compoundTag,
+                                 @NotNull final BlockAccessor blockAccessor)
     {
-        if (blockEntity instanceof final AbstractTileEntityColonyBuilding entity)
+        if (blockAccessor.getBlockEntity() instanceof final AbstractTileEntityColonyBuilding entity)
         {
             final IBuilding building = entity.getBuilding();
             if (building == null || building instanceof IRSComponent) { return; }
@@ -75,17 +72,17 @@ class BuildingNameComponentProvider implements IBlockComponentProvider, IServerD
 
             if (name.isEmpty())
             {
-                data.putString(OVERRIDE_NAME, Component.Serializer.toJson(nameLevel));
+                compoundTag.putString(OVERRIDE_NAME, Component.Serializer.toJson(nameLevel));
             }
             else
             {
-                data.putString(OVERRIDE_NAME, Component.Serializer.toJson(Component.literal(name)));
-                data.putString(BUILDING_NAME, Component.Serializer.toJson(nameLevel.withStyle(ChatFormatting.GRAY)));
+                compoundTag.putString(OVERRIDE_NAME, Component.Serializer.toJson(Component.literal(name)));
+                compoundTag.putString(BUILDING_NAME, Component.Serializer.toJson(nameLevel.withStyle(ChatFormatting.GRAY)));
             }
         }
-        else if (blockEntity instanceof final TileEntityDecorationController deco)
+        else if (blockAccessor.getBlockEntity() instanceof final TileEntityDecorationController deco)
         {
-            data.putString(BUILDING_NAME, Component.Serializer.toJson(Component.literal(deco.getBlueprintPath())));
+            compoundTag.putString(BUILDING_NAME, Component.Serializer.toJson(Component.literal(deco.getBlueprintPath())));
         }
     }
 
