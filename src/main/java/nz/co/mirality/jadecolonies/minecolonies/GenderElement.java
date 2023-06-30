@@ -50,10 +50,9 @@ class GenderElement extends Element
         UiRenderMacros.blit(poseStack, this.textureLocation, (int) x, (int) y, 15, 15, 0, 0, 30, 30, 30, 30);
     }
 
-    @Nullable
     @Override
-    public Component getMessage()
+    public @Nullable String getMessage()
     {
-        return Component.translatable("jadecolonies.jade.colony.gender." + (this == FEMALE ? "female" : "male"));
+        return Component.translatable("jadecolonies.jade.colony.gender." + (this == FEMALE ? "female" : "male")).getString();
     }
 }
