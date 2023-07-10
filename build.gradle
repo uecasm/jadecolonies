@@ -131,12 +131,16 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation fg.deobf("curse.maven:jade-324717:${jade_file}")
-
+    compileOnly fg.deobf("curse.maven:jade-324717:${jade_file}")
+    
     compileOnly fg.deobf("com.ldtteam:minecolonies:${colony_version}")
     compileOnly fg.deobf("com.ldtteam:structurize:${structurize_version}")
     compileOnly fg.deobf("com.ldtteam:domum_ornamentum:${domum_version}:universal")
     compileOnly fg.deobf("com.ldtteam:blockui:${blockui_version}")
+
+    if (project.include_jade.toBoolean()) {
+        runtimeOnly fg.deobf("curse.maven:jade-324717:${jade_file}")
+    }
 
     if (project.include_colony.toBoolean()) {
         runtimeOnly fg.deobf("com.ldtteam:minecolonies:${colony_version}")

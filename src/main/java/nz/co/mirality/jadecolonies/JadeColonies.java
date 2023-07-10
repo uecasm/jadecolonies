@@ -16,11 +16,20 @@ public class JadeColonies
 {
     public static final String ID = "jadecolonies";
 
+    public static final String JADE_ID = snownee.jade.Jade.MODID;
     public static final String DOMUM_ID = com.ldtteam.domumornamentum.util.Constants.MOD_ID;
     public static final String COLONY_ID = com.minecolonies.api.util.constant.Constants.MOD_ID;
 
     @SubscribeEvent
     public static void init(final FMLCommonSetupEvent event)
+    {
+        if (ModList.get().isLoaded(JADE_ID))
+        {
+            addPlugins();
+        }
+    }
+
+    private static void addPlugins()
     {
         addPlugin(DOMUM_ID, DomumOrnamentumPlugin::new);
         addPlugin(COLONY_ID, MineColoniesPlugin::new);
