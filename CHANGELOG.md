@@ -1,5 +1,10 @@
 # JadeColonies Changelog
 
+### 1.4.1
+
+- Fix startup error if Jade isn't installed -- not that this *does* anything without Jade installed, but
+  at least it disables itself gracefully now.
+
 ### 1.4.0
 
 - Updated to Minecraft 1.20.1
