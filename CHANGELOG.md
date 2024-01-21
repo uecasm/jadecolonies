@@ -1,5 +1,9 @@
 # JadeColonies Changelog
 
+### 1.4.2
+
+- Minimum MineColonies version bumped to 1.1.439-BETA
+
 ### 1.4.1
 
 - Fix startup error if Jade isn't installed -- not that this *does* anything without Jade installed, but
