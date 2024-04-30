@@ -1,9 +1,9 @@
 package nz.co.mirality.jadecolonies;
 
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import nz.co.mirality.jadecolonies.domum_ornamentum.DomumOrnamentumPlugin;
 import nz.co.mirality.jadecolonies.minecolonies.MineColoniesPlugin;
 import snownee.jade.api.IWailaPlugin;

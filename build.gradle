@@ -1,109 +1,53 @@
-buildscript {
-    dependencies {
-        classpath 'org.spongepowered:mixingradle:0.7.+'
-    }
-}
 plugins {
+    id 'java-library'
     id 'eclipse'
+    id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'net.neoforged.gradle.userdev' version '7.0.97'
 }
-apply plugin: 'org.spongepowered.mixin'
 
-def extraModsDir = "mods-${minecraft_version}"
+version = mod_version
+group = mod_group_id
 
-version = "${mod_version}"
-group = 'mirality'
-archivesBaseName = "JadeColonies-${minecraft_version}"
+base {
+    archivesName = "${name}-${minecraft_version}"
+}
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
-minecraft {
-    mappings channel: "${mappings_channel}", version: "${mappings_version}"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
-    //accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+//minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
+//minecraft.accessTransformers.entry public net.minecraft.client.Minecraft textureManager # textureManager
 
-    runs {
-        client {
-            workingDirectory project.file('run')
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+        modSource project.sourceSets.main
+    }
 
-            //property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+    client {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
 
-            mods {
-                jadecolonies {
-                    source sourceSets.main
-                }
-            }
-        }
+    server {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        programArgument '--nogui'
+    }
 
-        server {
-            workingDirectory project.file('run')
+    gameTestServer {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
 
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            mods {
-                jadecolonies {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-            args '--mod', 'jadecolonies', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
-            mods {
-                jadecolonies {
-                    source sourceSets.main
-                }
-            }
-        }
+    data {
+        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
-sourceSets {
-    main.resources.srcDirs += 'src/generated/resources'
-}
-
-processResources {
-    inputs.property 'version', project.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'META-INF/mods.toml'
-        expand 'project': project
-    }
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'META-INF/mods.toml'
-    }
-}
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    flatDir {
-        name "extra-mods"
-        dir file(extraModsDir)
-        content {
-            includeGroup 'extra-mods'
-        }
-    }
     mavenLocal()
-    mavenCentral()
     maven {
         name 'JEI'
         url 'https://maven.blamejared.com/'
@@ -126,98 +70,85 @@ repositories {
             includeGroup 'curse.maven'
         }
     }
+    maven { url = 'https://maven.neoforged.net/releases' }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    implementation "net.neoforged:neoforge:${neo_version}"
 
-    compileOnly fg.deobf("curse.maven:jade-324717:${jade_file}")
+    compileOnly "curse.maven:jade-324717:${jade_file}"
     
-    compileOnly fg.deobf("com.ldtteam:minecolonies:${colony_version}")
-    compileOnly fg.deobf("com.ldtteam:structurize:${structurize_version}")
-    compileOnly fg.deobf("com.ldtteam:domum_ornamentum:${domum_version}:universal")
-    compileOnly fg.deobf("com.ldtteam:blockui:${blockui_version}")
+    compileOnly "com.ldtteam:minecolonies:${colony_version}"
+    compileOnly "com.ldtteam:structurize:${structurize_version}"
+    compileOnly "com.ldtteam:domum_ornamentum:${domum_version}:universal"
+    compileOnly "com.ldtteam:blockui:${blockui_version}"
 
     if (project.include_jade.toBoolean()) {
-        runtimeOnly fg.deobf("curse.maven:jade-324717:${jade_file}")
+        runtimeOnly "curse.maven:jade-324717:${jade_file}"
     }
 
     if (project.include_colony.toBoolean()) {
-        runtimeOnly fg.deobf("com.ldtteam:minecolonies:${colony_version}")
-        runtimeOnly fg.deobf("com.ldtteam:structurize:${structurize_version}")
-        runtimeOnly fg.deobf("com.ldtteam:blockui:${blockui_version}")
-        runtimeOnly fg.deobf("com.ldtteam:domum_ornamentum:${domum_version}:universal")
-        runtimeOnly fg.deobf("com.ldtteam:multipiston:${piston_version}")
+        runtimeOnly "com.ldtteam:minecolonies:${colony_version}"
+        runtimeOnly "com.ldtteam:structurize:${structurize_version}"
+        runtimeOnly "com.ldtteam:blockui:${blockui_version}"
+        runtimeOnly "com.ldtteam:domum_ornamentum:${domum_version}:universal"
+        runtimeOnly "com.ldtteam:multipiston:${piston_version}"
     } else if (project.include_domum.toBoolean()) {
-        runtimeOnly fg.deobf("com.ldtteam:domum_ornamentum:${domum_version}:universal")
+        runtimeOnly "com.ldtteam:domum_ornamentum:${domum_version}:universal"
     }
 
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
     compileOnly 'com.intellij:annotations:+@jar'
 
-    // extra mods for testing
-    for (mod in fileTree(dir: extraModsDir, include: '*.jar')) {
-        def basename = mod.name.substring(0, mod.name.length() - ".jar".length())
-        def sep = basename.lastIndexOf('-')
-        assert sep != -1
-        def name = basename.substring(0, sep)
-        def version = basename.substring(sep + 1)
-        runtimeOnly fg.deobf("extra-mods:$name:$version")
-    }
+    // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
 }
-
-jar {
-    manifest {
-        attributes([
-            "Specification-Title": "jadecolonies",
-            "Specification-Vendor": "Mirality",
-            "Specification-Version": "1",
-            "Implementation-Title": project.name,
-            "Implementation-Version": project.version,
-            "Implementation-Vendor" :"Mirality",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-}
-
-jar.finalizedBy('reobfJar') 
 
 project.tasks.named("processResources") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier.set('sources')
-    from sourceSets.main.allSource
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+            neo_version         : neo_version, neo_version_range: neo_version_range,
+            loader_version_range: loader_version_range,
+            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors         : mod_authors, mod_description: mod_description,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml']) {
+        expand replaceProperties + [project: project]
+    }
 }
 
-task deobfJar(type: Jar) {
-    archiveClassifier.set('deobf')
-    from sourceSets.main.output
-}
+jar.manifest.attributes([
+    "Specification-Title"     : project.mod_id,
+    "Specification-Vendor"    : project.mod_authors,
+    "Specification-Version"   : "1",
+    "Implementation-Title"    : project.name,
+    "Implementation-Version"  : project.version,
+    "Implementation-Vendor"   : project.mod_authors,
+    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+])
 
-artifacts {
-    archives jar
-    archives sourcesJar
-    archives deobfJar
-}
+java.withSourcesJar()
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            groupId = project.group
-            artifactId = project.archivesBaseName
-            version = project.version
-            artifact jar
-            artifact sourcesJar
-            artifact deobfJar
+        register('mavenJava', MavenPublication) {
+            artifactId = project.base.archivesName.get()
+            from components.java
         }
     }
     repositories {
         maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
+            url "file://${project.projectDir}/mcmodsrepo"
         }
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }

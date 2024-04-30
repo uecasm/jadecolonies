@@ -1,6 +1,8 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/jadecolonies",
   "promos": {
+    "1.20.4-latest": "1.5.0",
+    "1.20.4-recommended": "1.5.0",
     "1.20.1-latest": "1.4.1",
     "1.20.1-recommended": "1.4.1",
     "1.19.4-latest": "1.2.1",
@@ -8,7 +10,11 @@
     "1.19.2-latest": "1.0.1",
     "1.19.2-recommended": "1.0.1"
   },
+  "1.20.4": {
+    "1.5.0": "Released for 1.20.4"
+  },
   "1.20.1": {
+    "1.4.2": "Fixed for MineColonies 1.1.439-BETA",
     "1.4.1": "Fixed startup error if Jade not installed",
     "1.4.0": "Released for 1.20.1"
   },

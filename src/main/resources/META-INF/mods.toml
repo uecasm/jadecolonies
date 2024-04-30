@@ -1,46 +1,45 @@
 modLoader="javafml"
-loaderVersion="${project.forge_range}"
-license="GPLv3"
-issueTrackerURL="https://github.com/uecasm/jadecolonies/issues"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="${project.mod_issues}"
 [[mods]]
-modId="jadecolonies"
-version="${project.version}"
-displayName="JadeColonies"
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
 updateJSONURL="https://raw.githubusercontent.com/uecasm/jadecolonies/master/update.json"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/jadecolonies"
 logoFile="logo.png"
 credits="Jade addon for MineColonies"
-authors="Mirality"
-description='''
-A Jade addon for MineColonies and/or Domum Ornamentum.
-'''
-[[dependencies.jadecolonies]]
-    modId="forge"
-    mandatory=true
-    versionRange="${project.forge_range}"
+authors="${mod_authors}"
+description='''${mod_description}'''
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="${neo_version_range}"
     ordering="NONE"
     side="BOTH"
-[[dependencies.jadecolonies]]
+[[dependencies.${mod_id}]]
     modId="minecraft"
-    mandatory=true
-    versionRange="${project.minecraft_range}"
+    type="required"
+    versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
-[[dependencies.jadecolonies]]
+[[dependencies.${mod_id}]]
     modId="jade"
-    mandatory=false
+    type="optional"
     versionRange="[${project.jade_version},)"
     ordering="AFTER"
     side="BOTH"
-[[dependencies.jadecolonies]]
+[[dependencies.${mod_id}]]
     modId="minecolonies"
-    mandatory=false
+    type="optional"
     versionRange="[${project.colony_version},)"
     ordering="AFTER"
     side="BOTH"
-[[dependencies.jadecolonies]]
+[[dependencies.${mod_id}]]
     modId="domum_ornamentum"
-    mandatory=false
+    type="optional"
     versionRange="[${project.domum_version},)"
     ordering="AFTER"
     side="BOTH"

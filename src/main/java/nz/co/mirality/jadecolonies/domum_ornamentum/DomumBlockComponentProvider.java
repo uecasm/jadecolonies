@@ -2,7 +2,7 @@ package nz.co.mirality.jadecolonies.domum_ornamentum;
 
 import com.ldtteam.domumornamentum.block.IMateriallyTexturedBlock;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.network.chat.contents.PlainTextContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -44,12 +44,12 @@ class DomumBlockComponentProvider implements IBlockComponentProvider
                               final BlockAccessor blockAccessor,
                               final IPluginConfig config)
     {
-        if (!(blockAccessor.getBlock() instanceof final IMateriallyTexturedBlock domumBlock))
+        if (!(blockAccessor.getBlock() instanceof IMateriallyTexturedBlock))
         {
             return;
         }
 
-        final ItemStack stack = domumBlock.getBlock().getCloneItemStack(blockAccessor.getBlockState(),
+        final ItemStack stack = blockAccessor.getBlock().getCloneItemStack(blockAccessor.getBlockState(),
                 blockAccessor.getHitResult(), blockAccessor.getLevel(), blockAccessor.getPosition(),
                 blockAccessor.getPlayer());
 
@@ -58,7 +58,7 @@ class DomumBlockComponentProvider implements IBlockComponentProvider
 
         // remove blank lines and the "crafted in an architect's cutter"
         components.removeIf(c -> (c.getContents() instanceof TranslatableContents t && t.getKey().equals("domum_ornamentum.origin.tooltip")) ||
-                        (c.getContents() instanceof LiteralContents l && l.text().isEmpty()));
+                        (c.getContents() instanceof PlainTextContents l && l.text().isEmpty()));
 
         tooltip.addAll(components);
     }

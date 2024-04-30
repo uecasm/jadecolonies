@@ -1,5 +1,12 @@
 # JadeColonies Changelog
 
+### 1.5.0
+
+- Updated to Minecraft 1.20.4 and NeoForge
+- Minimum Jade version bumped to 13.3.1
+- Minimum MineColonies version bumped to 1.1.532-BETA
+- Minimum Domum Ornamentum version bumped to 1.0.179-BETA
+
 ### 1.4.2
 
 - Minimum MineColonies version bumped to 1.1.439-BETA
