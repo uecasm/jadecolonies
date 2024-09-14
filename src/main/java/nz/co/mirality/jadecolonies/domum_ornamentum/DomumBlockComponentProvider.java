@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.PlainTextContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import snownee.jade.api.BlockAccessor;
@@ -19,7 +20,7 @@ import static nz.co.mirality.jadecolonies.JadeColonies.ID;
 
 class DomumBlockComponentProvider implements IBlockComponentProvider
 {
-    public static final ResourceLocation UID = new ResourceLocation(ID, "domum.materials");
+    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ID, "domum.materials");
     private static final DomumBlockComponentProvider INSTANCE = new DomumBlockComponentProvider();
 
     public static DomumBlockComponentProvider getInstance()
@@ -54,7 +55,7 @@ class DomumBlockComponentProvider implements IBlockComponentProvider
                 blockAccessor.getPlayer());
 
         final List<Component> components = new ArrayList<>();
-        stack.getItem().appendHoverText(stack, blockAccessor.getLevel(), components, TooltipFlag.Default.NORMAL);
+        stack.getItem().appendHoverText(stack, Item.TooltipContext.of(blockAccessor.getLevel()), components, TooltipFlag.Default.NORMAL);
 
         // remove blank lines and the "crafted in an architect's cutter"
         components.removeIf(c -> (c.getContents() instanceof TranslatableContents t && t.getKey().equals("domum_ornamentum.origin.tooltip")) ||

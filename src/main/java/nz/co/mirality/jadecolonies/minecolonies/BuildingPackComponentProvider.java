@@ -22,7 +22,7 @@ import static nz.co.mirality.jadecolonies.JadeColonies.ID;
  */
 class BuildingPackComponentProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor>
 {
-    private static final ResourceLocation UID = new ResourceLocation(ID, "colony.pack");
+    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ID, "colony.pack");
     private static final String PACK_NAME = UID.toString();
     private static final BuildingPackComponentProvider INSTANCE = new BuildingPackComponentProvider();
 

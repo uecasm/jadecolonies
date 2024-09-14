@@ -34,7 +34,7 @@ class GenderElement extends Element
 
     private GenderElement(final String texture)
     {
-        this.textureLocation = new ResourceLocation(texture);
+        this.textureLocation = ResourceLocation.parse(texture);
     }
 
     @NotNull

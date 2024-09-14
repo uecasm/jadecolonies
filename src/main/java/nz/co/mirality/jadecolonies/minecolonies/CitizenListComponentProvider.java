@@ -19,7 +19,7 @@ import static nz.co.mirality.jadecolonies.JadeColonies.ID;
  */
 class CitizenListComponentProvider implements IBlockComponentProvider
 {
-    private static final ResourceLocation UID = new ResourceLocation(ID, "colony.citizens");
+    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ID, "colony.citizens");
     private static final CitizenListComponentProvider INSTANCE = new CitizenListComponentProvider();
 
     public static CitizenListComponentProvider getInstance()

@@ -1,6 +1,8 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/jadecolonies",
   "promos": {
+    "1.21.1-latest": "1.6.0",
+    "1.21.1-recommended": "1.6.0",
     "1.20.4-latest": "1.5.0",
     "1.20.4-recommended": "1.5.0",
     "1.20.1-latest": "1.4.1",
@@ -9,6 +11,9 @@
     "1.19.4-recommended": "1.2.1",
     "1.19.2-latest": "1.0.1",
     "1.19.2-recommended": "1.0.1"
+  },
+  "1.21.1": {
+    "1.6.0": "Released for 1.21.1"
   },
   "1.20.4": {
     "1.5.0": "Released for 1.20.4"

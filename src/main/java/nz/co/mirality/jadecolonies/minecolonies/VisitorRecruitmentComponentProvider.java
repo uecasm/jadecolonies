@@ -10,6 +10,7 @@ import snownee.jade.api.IEntityComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.IElement;
+import snownee.jade.api.ui.IElementHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import static nz.co.mirality.jadecolonies.JadeColonies.ID;
  */
 class VisitorRecruitmentComponentProvider implements IEntityComponentProvider
 {
-    private static final ResourceLocation UID = new ResourceLocation(ID, "colony.visitor_cost");
+    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ID, "colony.visitor_cost");
 
     private static final VisitorRecruitmentComponentProvider INSTANCE = new VisitorRecruitmentComponentProvider();
 
@@ -53,9 +54,9 @@ class VisitorRecruitmentComponentProvider implements IEntityComponentProvider
             if (citizen.getCitizenDataView() instanceof final IVisitorViewData visitor)
             {
                 final List<IElement> elements = new ArrayList<>();
-                elements.add(tooltip.getElementHelper().text(Component.translatable("jadecolonies.jade.colony.visitor_cost")));
-                elements.add(tooltip.getElementHelper().spacer(4, 1));
-                elements.add(tooltip.getElementHelper().smallItem(visitor.getRecruitCost()));
+                elements.add(IElementHelper.get().text(Component.translatable("jadecolonies.jade.colony.visitor_cost")));
+                elements.add(IElementHelper.get().spacer(4, 1));
+                elements.add(IElementHelper.get().smallItem(visitor.getRecruitCost()));
                 tooltip.add(elements);
             }
         }

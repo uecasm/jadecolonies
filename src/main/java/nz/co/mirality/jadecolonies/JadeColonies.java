@@ -2,6 +2,7 @@ package nz.co.mirality.jadecolonies;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import nz.co.mirality.jadecolonies.domum_ornamentum.DomumOrnamentumPlugin;
@@ -11,12 +12,12 @@ import snownee.jade.api.IWailaPlugin;
 import java.util.function.Supplier;
 
 @Mod(JadeColonies.ID)
-@Mod.EventBusSubscriber(modid = JadeColonies.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = JadeColonies.ID, bus = EventBusSubscriber.Bus.MOD)
 public class JadeColonies
 {
     public static final String ID = "jadecolonies";
 
-    public static final String JADE_ID = snownee.jade.Jade.MODID;
+    public static final String JADE_ID = snownee.jade.Jade.ID;
     public static final String DOMUM_ID = com.ldtteam.domumornamentum.util.Constants.MOD_ID;
     public static final String COLONY_ID = com.minecolonies.api.util.constant.Constants.MOD_ID;
 

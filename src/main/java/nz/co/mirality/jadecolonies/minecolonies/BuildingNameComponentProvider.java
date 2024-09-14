@@ -5,6 +5,7 @@ import com.minecolonies.api.colony.buildings.IRSComponent;
 import com.minecolonies.api.tileentities.AbstractTileEntityColonyBuilding;
 import com.minecolonies.core.tileentities.TileEntityDecorationController;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -24,7 +25,7 @@ import static nz.co.mirality.jadecolonies.JadeColonies.ID;
  */
 class BuildingNameComponentProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor>
 {
-    private static final ResourceLocation UID = new ResourceLocation(ID, "colony.hut");
+    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ID, "colony.hut");
     private static final String OVERRIDE_NAME = "givenName";
     private static final String BUILDING_NAME = UID.toString();
     private static final BuildingNameComponentProvider INSTANCE = new BuildingNameComponentProvider();
@@ -57,6 +58,7 @@ class BuildingNameComponentProvider implements IBlockComponentProvider, IServerD
     public void appendServerData(@NotNull final CompoundTag compoundTag,
                                  @NotNull final BlockAccessor blockAccessor)
     {
+        final HolderLookup.Provider lookupProvider = blockAccessor.getLevel().registryAccess();
         if (blockAccessor.getBlockEntity() instanceof final AbstractTileEntityColonyBuilding entity)
         {
             final IBuilding building = entity.getBuilding();
@@ -69,17 +71,17 @@ class BuildingNameComponentProvider implements IBlockComponentProvider, IServerD
 
             if (name.isEmpty())
             {
-                compoundTag.putString(OVERRIDE_NAME, Component.Serializer.toJson(nameLevel));
+                compoundTag.putString(OVERRIDE_NAME, Component.Serializer.toJson(nameLevel, lookupProvider));
             }
             else
             {
-                compoundTag.putString(OVERRIDE_NAME, Component.Serializer.toJson(Component.literal(name)));
-                compoundTag.putString(BUILDING_NAME, Component.Serializer.toJson(nameLevel.withStyle(ChatFormatting.GRAY)));
+                compoundTag.putString(OVERRIDE_NAME, Component.Serializer.toJson(Component.literal(name), lookupProvider));
+                compoundTag.putString(BUILDING_NAME, Component.Serializer.toJson(nameLevel.withStyle(ChatFormatting.GRAY), lookupProvider));
             }
         }
         else if (blockAccessor.getBlockEntity() instanceof final TileEntityDecorationController deco)
         {
-            compoundTag.putString(BUILDING_NAME, Component.Serializer.toJson(Component.literal(deco.getBlueprintPath())));
+            compoundTag.putString(BUILDING_NAME, Component.Serializer.toJson(Component.literal(deco.getBlueprintPath()), lookupProvider));
         }
     }
 
@@ -88,11 +90,12 @@ class BuildingNameComponentProvider implements IBlockComponentProvider, IServerD
                               @NotNull final BlockAccessor blockAccessor,
                               @NotNull final IPluginConfig pluginConfig)
     {
+        final HolderLookup.Provider lookupProvider = blockAccessor.getLevel().registryAccess();
         final CompoundTag data = blockAccessor.getServerData();
 
         if (data.contains(BUILDING_NAME))
         {
-            final Component name = Component.Serializer.fromJson(data.getString(BUILDING_NAME));
+            final Component name = Component.Serializer.fromJson(data.getString(BUILDING_NAME), lookupProvider);
             tooltip.add(name);
         }
     }

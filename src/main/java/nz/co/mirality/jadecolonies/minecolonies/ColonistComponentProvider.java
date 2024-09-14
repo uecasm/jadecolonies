@@ -12,6 +12,7 @@ import snownee.jade.api.IEntityComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.IElement;
+import snownee.jade.api.ui.IElementHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import static nz.co.mirality.jadecolonies.JadeColonies.ID;
  */
 class ColonistComponentProvider implements IEntityComponentProvider
 {
-    private static final ResourceLocation UID = new ResourceLocation(ID, "colony.colonist");
+    private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(ID, "colony.colonist");
     private static final ColonistComponentProvider INSTANCE = new ColonistComponentProvider();
 
     public static ColonistComponentProvider getInstance()
@@ -67,8 +68,8 @@ class ColonistComponentProvider implements IEntityComponentProvider
                 }
 
                 elements.add(GenderElement.get(citizenData.isFemale()));
-                elements.add(tooltip.getElementHelper().spacer(8, 1));
-                elements.add(tooltip.getElementHelper().text(Component.translatable(job)).translate(new Vec2(0, 3.5F)));
+                elements.add(IElementHelper.get().spacer(8, 1));
+                elements.add(IElementHelper.get().text(Component.translatable(job)).translate(new Vec2(0, 3.5F)));
                 tooltip.add(elements);
             }
         }
