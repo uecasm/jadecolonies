@@ -4,6 +4,7 @@ import com.minecolonies.api.blocks.AbstractBlockHut;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.tileentities.AbstractTileEntityColonyBuilding;
 import com.minecolonies.core.blocks.BlockDecorationController;
+import com.minecolonies.core.blocks.MinecoloniesCropBlock;
 import com.minecolonies.core.tileentities.TileEntityDecorationController;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
@@ -28,6 +29,7 @@ public class MineColoniesPlugin implements IWailaPlugin
         registration.registerBlockComponent(BuildingNameComponentProvider.getInstance(), BlockDecorationController.class);
         registration.registerBlockComponent(BuildingPackComponentProvider.getInstance(), BlockDecorationController.class);
         registration.registerBlockComponent(CitizenListComponentProvider.getInstance(), AbstractBlockHut.class);
+        registration.registerBlockComponent(CropAgeComponentProvider.getInstance(), MinecoloniesCropBlock.class);
 
         registration.registerEntityComponent(ColonistComponentProvider.getInstance(), AbstractEntityCitizen.class);
         registration.registerEntityComponent(VisitorRecruitmentComponentProvider.getInstance(), AbstractEntityCitizen.class);
